@@ -1,0 +1,308 @@
+<script lang="ts">
+	import { onMount, tick } from 'svelte';
+	import { Motion } from 'svelte-motion';
+	import AnimatedSection from '$lib/components/utils/AnimatedSection.svelte';
+	import { staggerContainer, fadeUpVariant } from '$lib/utils/animations';
+	import ProjectModal from '$lib/components/common/ProjectModal.svelte';
+	import ShowcaseCard from './ShowcaseCard.svelte';
+	import ImageModal from '$lib/components/common/ImageModal.svelte';
+	import ScrollText from '$lib/components/utils/ScrollText.svelte';
+	import ShowcaseGridItem from './ShowcaseGridItem.svelte';
+	import ShowcaseProjectItem from './ShowcaseProjectItem.svelte';
+	import { t } from '$lib/i18n';
+
+	let isModalOpen = false;
+	let selectedProject: any = null;
+
+	let isImageModalOpen = false;
+	let selectedImageSrc = '';
+	let selectedImageAlt = '';
+
+	let selectedImages: string[] = [];
+
+	let scrollY = 0;
+	let screenHeight = 0;
+
+	let wrapperNode: HTMLElement;
+
+	let scrollProgress = 0;
+
+	$: if (wrapperNode && screenHeight > 0 && scrollY !== undefined) {
+		const rect = wrapperNode.getBoundingClientRect();
+		const maxScroll = wrapperNode.offsetHeight - screenHeight;
+		if (maxScroll > 0) {
+			const rawProgress = -rect.top / maxScroll;
+			scrollProgress = Math.max(0, Math.min(1, rawProgress));
+		} else {
+			scrollProgress = 0;
+		}
+	}
+
+	function easeInOutCubic(x: number) {
+		return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+	}
+
+	$: easeProgress = easeInOutCubic(scrollProgress);
+
+	$: currentScale = 30 - easeProgress * 29;
+
+	$: bgLevel = Math.floor(easeProgress * 255);
+
+	onMount(() => {
+		screenHeight = window.innerHeight;
+
+		window.addEventListener('resize', () => {
+			screenHeight = window.innerHeight;
+		});
+
+		return () =>
+			window.removeEventListener('resize', () => {
+				screenHeight = window.innerHeight;
+			});
+	});
+
+	function openImageModal(src: string, alt: string, images: string[] = []) {
+		selectedImageSrc = src;
+		selectedImageAlt = alt;
+		selectedImages = images;
+		isImageModalOpen = true;
+	}
+
+	import { getToolIcon } from '$lib/config/toolIcons';
+	import { clientApps, myApps, tabs, moreProjects } from '$lib/data/projects';
+
+	let selectedTab = 'software';
+
+	$: translatedClientApps = clientApps.map(app => ({
+		...app,
+		name: $t(`projects.${app.id}.name`, { default: app.name }),
+		description: $t(`projects.${app.id}.description`, { default: app.description }),
+		features: $t(`projects.${app.id}.features`, { default: app.features })
+	}));
+
+	$: translatedMyApps = myApps.map(app => ({
+		...app,
+		name: $t(`projects.${app.id}_my.name`, { default: app.name }),
+		caption: $t(`projects.${app.id}_my.caption`, { default: app.caption }),
+		description: $t(`projects.${app.id}_my.description`, { default: app.description }),
+		features: $t(`projects.${app.id}_my.features`, { default: app.features })
+	}));
+
+	$: translatedMoreProjects = moreProjects.map(app => ({
+		...app,
+		name: $t(`projects.${app.id}.name`, { default: app.name }),
+		description: $t(`projects.${app.id}.description`, { default: app.description }),
+		features: $t(`projects.${app.id}.features`, { default: (app as any).features })
+	}));
+
+	$: filteredMoreProjects =
+		selectedTab === 'all'
+			? translatedMoreProjects
+			: translatedMoreProjects.filter((p) => p.category === selectedTab);
+
+	// Unified categories for modal navigation
+	$: projectCategories = [
+		{ id: 'clients', label: $t('home.showcases.clients'), projects: translatedClientApps, icon: 'fa-solid fa-briefcase' },
+		{ id: 'personal', label: $t('home.showcases.personal'), projects: translatedMyApps, icon: 'fa-solid fa-star' },
+		...tabs.map((tab) => ({
+			id: tab.id,
+			label: $t(`projects.${tab.id}`),
+			projects: translatedMoreProjects.filter((p) => p.category === tab.id),
+			icon: tab.icon
+		}))
+	];
+
+	let currentCategoryId = '';
+	let currentProjectIndex = -1;
+
+	function openProjectModal(project: any) {
+		selectedProject = project;
+		// Find the category and index for the initial project
+		for (const cat of projectCategories) {
+			const index = cat.projects.findIndex((p: any) => p.id === project.id);
+			if (index !== -1) {
+				currentCategoryId = cat.id;
+				currentProjectIndex = index;
+				break;
+			}
+		}
+		isModalOpen = true;
+	}
+
+	function handleProjectChange(newCategoryId: string, newIndex: number) {
+		const category = projectCategories.find((c) => c.id === newCategoryId);
+		if (category && category.projects[newIndex]) {
+			selectedProject = category.projects[newIndex];
+			currentCategoryId = newCategoryId;
+			currentProjectIndex = newIndex;
+		}
+	}
+</script>
+
+<svelte:window bind:scrollY />
+
+<div id="showcases" class="home-showcases py-8 md:py-16 px-4 md:px-8 lg:px-12">
+	<div class="mb-0 md:mb-0">
+		<h2 class="text-3xl md:text-4xl font-medium whitespace-nowrap">
+			<ScrollText text={$t('home.showcases.clients')} />
+		</h2>
+	</div>
+
+	<div class="max-w-7xl mx-auto">
+		<div class="h-12 md:h-16"></div>
+
+		<div class="mb-12 md:mb-16">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+				{#each translatedClientApps as app, i}
+					<div class="showcase-card-wrapper h-full" style="animation-delay: {i * 0.1}s;">
+						<ShowcaseCard
+							name={app.name}
+							description={app.description}
+							stackImages={app.stackImages}
+							stackImageNames={app.stackImageNames ?? []}
+							backgroundColor={app.backgroundColor}
+							titleColor={app.titleColor || '#ffffff'}
+							phoneImages={app.phoneImages}
+							type={app.type === 'desktop'
+								? 'desktop'
+								: app.type === 'desktop-left'
+									? 'desktop-left'
+									: 'mobile'}
+							onImageClick={(src) => openImageModal(src, app.name, app.phoneImages)}
+							onClick={() => openProjectModal(app)}
+							link={app.link}
+						/>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<div class="h-12 md:h-16"></div>
+	</div>
+
+	<div class="mb-6 md:mb-9">
+		<h2 class="text-3xl md:text-4xl font-medium whitespace-nowrap m-0">
+			<ScrollText text={$t('home.showcases.personal')} />
+		</h2>
+	</div>
+
+	<div class="max-w-7xl mx-auto">
+		<div class="mb-12 md:mb-16">
+			<AnimatedSection
+				customVariant={staggerContainer}
+				className="grid grid-cols-1 md:grid-cols-2 gap-4"
+			>
+				{#each translatedMyApps as app, i}
+					<ShowcaseProjectItem {app} openProjectModal={() => openProjectModal(app)} />
+				{/each}
+			</AnimatedSection>
+		</div>
+	</div>
+
+	<div class="h-12 md:h-16"></div>
+
+	<div class="mb-6 md:mb-14 flex flex-col md:flex-row md:items-center justify-between gap-6">
+		<h2 class="text-3xl md:text-4xl font-medium whitespace-nowrap m-0">
+			<ScrollText text={$t('home.showcases.morePersonal')} />
+		</h2>
+
+		<div
+			class="flex bg-gray-100/50 backdrop-blur-md p-1 rounded-xl border border-gray-200/50 self-start md:self-center overflow-x-auto no-scrollbar max-w-full"
+		>
+			{#each tabs as tab}
+				<button
+					class="relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 whitespace-nowrap {selectedTab ===
+					tab.id
+						? 'text-black'
+						: 'text-black/50'}"
+					on:click={() => (selectedTab = tab.id)}
+				>
+					{#if selectedTab === tab.id}
+						<Motion
+							layoutId="activeTabPersonal"
+							transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+							let:motion
+						>
+							<div use:motion class="absolute inset-0 bg-white shadow-sm rounded-lg"></div>
+						</Motion>
+					{/if}
+					<span class="relative z-10 flex items-center gap-2">
+						{#if tab.icon.startsWith('fa-')}
+							<i class="{tab.icon} w-4 h-4 flex items-center justify-center text-xs"></i>
+						{:else}
+							<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+								<path d={tab.icon} />
+							</svg>
+						{/if}
+						{$t(`projects.${tab.id}`)}
+					</span>
+				</button>
+			{/each}
+		</div>
+	</div>
+
+	<div class="max-w-7xl mx-auto">
+		{#key selectedTab}
+			<AnimatedSection
+				customVariant={staggerContainer}
+				delay={0.2}
+				className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4"
+			>
+				{#each filteredMoreProjects as logo, i (logo.id)}
+					<ShowcaseGridItem {logo} openProjectModal={() => openProjectModal(logo)} />
+				{/each}
+			</AnimatedSection>
+		{/key}
+	</div>
+</div>
+
+<div
+	bind:this={wrapperNode}
+	class="immersive-wrapper relative"
+	style="height: {typeof window !== 'undefined'
+		? window.innerHeight * 1.5 + 'px'
+		: '150vh'}; contain: layout style paint;"
+>
+	<div
+		class="immersive-container sticky top-0 h-screen flex items-end justify-start overflow-hidden pb-16 md:pb-24 px-4 md:px-8 lg:px-12"
+		style="z-index: 1; background-color: rgb({bgLevel}, {bgLevel}, {bgLevel}); contain: layout style paint; pointer-events: {easeProgress <
+		0.95
+			? 'none'
+			: 'auto'};"
+	>
+		<h2
+			class="immersive-text text-3xl md:text-4xl font-medium text-left whitespace-nowrap"
+			style="transform: scale({Math.max(
+				1,
+				currentScale
+			)}); color: #000000; transform-origin: left center; opacity: {Math.min(
+				1,
+				easeProgress * 2.5
+			)}; will-change: transform, opacity;"
+		>
+			{$t('home.showcases.myPlatforms')}
+		</h2>
+	</div>
+	<span id="platforms"></span>
+</div>
+
+{#if selectedProject}
+	<ProjectModal
+		bind:isOpen={isModalOpen}
+		project={selectedProject}
+		categories={projectCategories}
+		{currentCategoryId}
+		{currentProjectIndex}
+		onProjectChange={handleProjectChange}
+	/>
+{/if}
+
+<ImageModal
+	bind:isOpen={isImageModalOpen}
+	imageSrc={selectedImageSrc}
+	altText={selectedImageAlt}
+	images={selectedImages}
+/>
+
+<style>
+</style>

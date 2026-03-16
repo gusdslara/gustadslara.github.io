@@ -1,0 +1,293 @@
+@import './variables';
+
+
+.tb-position--relative {
+	position: relative;
+}
+
+.tb-position--absolute {
+	position: absolute;
+}
+
+.tb-position--fixed {
+	position: fixed;
+}
+
+.tb-position--sticky {
+	position: sticky;
+}
+
+
+.tb-display--flex {
+	display: flex;
+}
+
+.tb-display--block {
+	display: block;
+}
+
+.tb-display--inline-block {
+	display: inline-block;
+}
+
+.tb-display--none {
+	display: none;
+}
+
+
+.tb-flex--shrink-0 {
+	flex-shrink: 0;
+}
+
+.tb-flex--justify-center {
+	display: flex;
+	justify-content: center;
+}
+
+
+.tb-width--full {
+	width: 100%;
+}
+
+@each $name, $value in $spacings {
+	.tb-width--#{$name} {
+		width: $value;
+	}
+}
+
+
+.tb-height--full {
+	height: 100%;
+}
+
+@each $name, $value in $spacings {
+	.tb-height--#{$name} {
+		height: $value;
+	}
+	
+	@media (max-width: 600px) {
+		.xs\:tb-height--#{$name} {
+			height: $value;
+		}
+	}
+	
+	@media (min-width: 601px) and (max-width: 960px) {
+		.sm\:tb-height--#{$name} {
+			height: $value;
+		}
+	}
+}
+
+
+@each $name, $value in $spacings {
+	.tb-padding--#{$name} {
+		padding: $value;
+	}
+	
+	.tb-padding--v-#{$name} {
+		padding-top: $value;
+		padding-bottom: $value;
+	}
+	
+	.tb-padding--h-#{$name} {
+		padding-left: $value;
+		padding-right: $value;
+	}
+	
+	.tb-padding--top-#{$name} {
+		padding-top: $value;
+	}
+	
+	.tb-padding--bottom-#{$name} {
+		padding-bottom: $value;
+	}
+	
+	.tb-padding--left-#{$name} {
+		padding-left: $value;
+	}
+	
+	.tb-padding--right-#{$name} {
+		padding-right: $value;
+	}
+	
+	.tb-padding--8-#{$name} {
+		padding: 0.5rem $value;
+	}
+	
+	.tb-padding--#{$name}-16 {
+		padding: $value 1rem;
+	}
+	
+	.tb-padding--8-16 {
+		padding: 0.5rem 1rem;
+	}
+	
+	.tb-padding--16-24 {
+		padding: 1rem 1.5rem;
+	}
+	
+	@media (max-width: 600px) {
+		.xs\:tb-padding--#{$name} {
+			padding: $value;
+		}
+	}
+	
+	@media (min-width: 961px) {
+		.tb-padding--h-#{$name} {
+			padding-left: $value;
+			padding-right: $value;
+		}
+	}
+}
+
+
+@each $name, $value in $spacings {
+	.tb-margin--#{$name} {
+		margin: $value;
+	}
+}
+
+
+.tb-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 24px;
+	
+	@media (max-width: 600px) {
+		padding: 0 16px;
+	}
+}
+
+.tb-container--stretched {
+	width: 100%;
+	max-width: none;
+}
+
+
+.tb-color--black {
+	color: $color-black;
+}
+
+.tb-color--white {
+	color: $color-white;
+}
+
+.tb-color--black-38 {
+	color: $color-black-38;
+}
+
+.tb-color--black-54 {
+	color: $color-black-54;
+}
+
+.tb-color--black-75 {
+	color: $color-black-75;
+}
+
+.tb-color--grey-300 {
+	color: #e0e0e0;
+}
+
+.tb-color--grey-500 {
+	color: #9e9e9e;
+}
+
+.tb-color--grey-900 {
+	color: #212121;
+}
+
+
+.tb-color-bg--white {
+	background-color: $color-white;
+}
+
+.tb-color-bg--black {
+	background-color: $color-black;
+}
+
+.tb-color-bg--black-2 {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tb-color-bg--black-4 {
+	background-color: $color-black-4;
+}
+
+.tb-color-bg--black-6 {
+	background-color: $color-black-6;
+}
+
+
+.tb-border--r6 {
+	border-radius: 6px;
+}
+
+
+@each $name, $value in $z-layers {
+	.tb-z-index--#{$name} {
+		z-index: $value;
+	}
+}
+
+.tb-z-index--3 {
+	z-index: 3;
+}
+
+
+.tb-overflow--hidden {
+	overflow: hidden;
+}
+
+.tb-overflow--auto {
+	overflow: auto;
+}
+
+
+.tb-text--align-center,
+.tb-text-align--center {
+	text-align: center;
+}
+
+.tb-text--align-left {
+	text-align: left;
+}
+
+.tb-text--align-right {
+	text-align: right;
+}
+
+
+@each $name, $value in $font-weights {
+	.tb-font-weight--#{$name} {
+		font-weight: $value;
+	}
+}
+
+
+.tb-cursor--pointer {
+	cursor: pointer;
+}
+
+
+.tb-image {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+.tb-icon--16 {
+	width: 16px;
+	height: 16px;
+}
+
+
+.tb-a--unset {
+	text-decoration: none;
+	color: inherit;
+}
+
+.unlink {
+	text-decoration: none;
+	color: inherit;
+}
+

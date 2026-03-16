@@ -1,0 +1,41 @@
+<script lang="ts">
+	import { Motion } from 'svelte-motion';
+	import AnimatedSection from '$lib/components/utils/AnimatedSection.svelte';
+	import { staggerContainer } from '$lib/utils/animations';
+	import ShowcasePlatformItem from './ShowcasePlatformItem.svelte';
+	import { t } from '$lib/i18n';
+</script>
+
+<AnimatedSection
+	customVariant={staggerContainer}
+	delay={0.1}
+	className="home-platforms relative z-20 pt-6 pb-8 md:pt-8 md:pb-16 px-4 md:px-8 lg:px-12 bg-white"
+>
+	<div class="max-w-7xl mx-auto">
+		<ShowcasePlatformItem
+			href="https://unrender.games"
+			title="Game Studio"
+			description={$t('home.platforms.unrenderDesc')}
+			buttonText={$t('home.platforms.unrenderBtn')}
+			imgSrc="/assets/img/illustrations/unrender.png"
+			imgAlt="Unrender Games Illustration"
+			gradientClass="bg-gradient-to-br from-purple-50 to-pink-50"
+			isOpenSource={false}
+			technologies={['Unity', 'Unreal', 'ThreeJS', 'Blender']}
+		/>
+
+		<div class="h-8"></div>
+
+		<ShowcasePlatformItem
+			href="https://memorycard.digital/"
+			title="memorycard.digital"
+			description={$t('home.platforms.memorycardDesc')}
+			buttonText={$t('home.platforms.memorycardBtn')}
+			imgSrc="/assets/img/illustrations/memorycard-digital.png"
+			imgAlt="Cloud Game Saves Illustration"
+			gradientClass="bg-gradient-to-br from-green-50 to-emerald-50"
+			isOpenSource={true}
+			technologies={['Go', 'Docker', 'Azure', 'Svelte']}
+		/>
+	</div>
+</AnimatedSection>

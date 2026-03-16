@@ -1,0 +1,240 @@
+@import './variables';
+
+
+.current-typo--h1-light {
+	font-family: $font-codenext-extralight;
+	font-size: 4.5rem;
+	line-height: 1.2;
+	font-weight: 100;
+	
+	@media (max-width: 960px) {
+		font-size: 3.5rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 2.5rem;
+	}
+}
+
+.current-typo--h2-light {
+	font-family: $font-codenext-light;
+	font-size: 3.5rem;
+	line-height: 1.2;
+	font-weight: 300;
+	
+	@media (max-width: 960px) {
+		font-size: 2.75rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 2rem;
+	}
+}
+
+.current-typo--h3-light {
+	font-family: $font-codenext-light;
+	font-size: 2.75rem;
+	line-height: 1.3;
+	font-weight: 300;
+	
+	@media (max-width: 960px) {
+		font-size: 2.25rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 1.75rem;
+	}
+}
+
+.current-typo--h1-medium,
+.current-typo--h2-medium,
+.current-typo--h3-medium {
+	font-family: $font-codenext-heavy;
+	font-weight: 900;
+}
+
+.current-typo--h2-medium {
+	font-size: 3rem;
+	line-height: 1.2;
+	
+	@media (max-width: 960px) {
+		font-size: 2.5rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 2rem;
+	}
+}
+
+.current-typo--h3-medium {
+	font-size: 2.5rem;
+	line-height: 1.3;
+	
+	@media (max-width: 960px) {
+		font-size: 2rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 1.5rem;
+	}
+}
+
+.current-typo--h3 {
+	font-family: $font-codenext-light;
+	font-size: 2.5rem;
+	line-height: 1.3;
+	font-weight: 300;
+	
+	@media (max-width: 600px) {
+		font-size: 1.75rem;
+	}
+}
+
+.current-typo--h4 {
+	font-family: $font-primary;
+	font-size: 2rem;
+	line-height: 1.4;
+	font-weight: 400;
+	
+	@media (max-width: 960px) {
+		font-size: 1.75rem;
+	}
+	
+	@media (max-width: 600px) {
+		font-size: 1.5rem;
+	}
+}
+
+.current-typo--h5 {
+	font-family: $font-primary;
+	font-size: 1.5rem;
+	line-height: 1.4;
+	font-weight: 400;
+	
+	@media (max-width: 600px) {
+		font-size: 1.25rem;
+	}
+}
+
+.current-typo--h6 {
+	font-family: $font-primary;
+	font-size: 1.25rem;
+	line-height: 1.4;
+	font-weight: 400;
+	
+	@media (max-width: 600px) {
+		font-size: 1rem;
+	}
+}
+
+.current-typo--body1 {
+	font-family: $font-primary;
+	font-size: 1rem;
+	line-height: 1.6;
+	font-weight: 400;
+}
+
+.current-typo--body1-medium {
+	font-family: $font-primary;
+	font-size: 1rem;
+	line-height: 1.6;
+	font-weight: 500;
+}
+
+.current-typo--body2 {
+	font-family: $font-primary;
+	font-size: 0.875rem;
+	line-height: 1.6;
+	font-weight: 400;
+}
+
+.current-typo--button {
+	font-family: $font-primary;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.current-typo--button-medium {
+	font-family: $font-primary;
+	font-size: 1rem;
+	line-height: 1.5;
+	font-weight: 500;
+	text-transform: none;
+}
+
+
+.tb-typo--h4 {
+	font-size: 2rem;
+	line-height: 1.4;
+	
+	@media (max-width: 600px) {
+		font-size: 1.5rem;
+	}
+}
+
+.tb-typo--h5 {
+	font-size: 1.5rem;
+	line-height: 1.4;
+	
+	@media (max-width: 600px) {
+		font-size: 1.25rem;
+	}
+}
+
+.tb-typo--body1 {
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+.tb-typo--body2 {
+	font-size: 0.875rem;
+	line-height: 1.6;
+}
+
+.tb-typo--button {
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+
+@media (max-width: 600px) {
+	.xs\:current-typo--h3 {
+		font-size: 1.75rem;
+	}
+	
+	.xs\:current-typo--h4 {
+		font-size: 1.5rem;
+	}
+	
+	.xs\:current-typo--h5 {
+		font-size: 1.25rem;
+	}
+	
+	.xs\:current-typo--body1 {
+		font-size: 1rem;
+	}
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+	.sm\:current-typo--h2-light {
+		font-size: 2.75rem;
+	}
+	
+	.sm\:current-typo--h3-light {
+		font-size: 2.25rem;
+	}
+	
+	.sm\:current-typo--h4 {
+		font-size: 1.75rem;
+	}
+	
+	.sm\:current-typo--h5 {
+		font-size: 1.25rem;
+	}
+}
+

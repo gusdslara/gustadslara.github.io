@@ -1,0 +1,66 @@
+
+$color-black: #000000;
+$color-white: #ffffff;
+$color-primary: #dd206b;
+$color-secondary: #667eea;
+
+
+$color-black-4: rgba(0, 0, 0, 0.04);
+$color-black-6: rgba(0, 0, 0, 0.06);
+$color-black-38: rgba(0, 0, 0, 0.38);
+$color-black-54: rgba(0, 0, 0, 0.54);
+$color-black-75: rgba(0, 0, 0, 0.75);
+
+
+$spacings: (
+	'8': 0.5rem,
+	'12': 0.75rem,
+	'16': 1rem,
+	'20': 1.25rem,
+	'24': 1.5rem,
+	'32': 2rem,
+	'36': 2.25rem,
+	'40': 2.5rem,
+	'48': 3rem,
+	'56': 3.5rem,
+	'64': 4rem,
+	'72': 4.5rem,
+	'126': 7.875rem
+);
+
+
+$font-primary: 'Roboto', 'Helvetica Neue', sans-serif;
+$font-codenext-light: 'CodeNext-Light', sans-serif;
+$font-codenext-extralight: 'CodeNext-ExtraLight', sans-serif;
+$font-codenext-heavy: 'CodeNext-Heavy', sans-serif;
+
+
+$font-weights: (
+	'light': 300,
+	'regular': 400,
+	'medium': 500,
+	'semi-bold': 600,
+	'bold': 700
+);
+
+
+$z-layers: (
+	'base': 1,
+	'dropdown': 10,
+	'sticky': 100,
+	'fixed': 200,
+	'modal-backdrop': 300,
+	'modal': 400,
+	'popover': 500,
+	'tooltip': 600
+);
+
+
+$breakpoints: (
+	'xs': 0,
+	'sm': 600px,
+	'md': 960px,
+	'lg': 1280px,
+	'xl': 1920px
+);
+
